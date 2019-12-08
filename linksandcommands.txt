@@ -104,6 +104,28 @@ Create a new httpd image push to Docker hub and use it for the deployment
   106  sudo docker exec -it newhttp bash
   107  kubectl set image deployment httpd httpd=anjurose/httpd  => install vim and modify index.html under htdocs
 
+   19  vi deploy.yaml
+   20  kubectl create -f deploy.yaml
+   21  kubectl create service nodeport httpd --tcp 80:80
+   22  kubectl get svc
+   24  sudo docker run -d --name myhttp httpd
+   26  sudo docker exec -it myhttp bash
+   28  sudo docker commit 41f5 anjurose/testhttp
+   30  sudo docker push anjurose/testhttp
+   31  sudo docker login
+   32  sudo docker push anjurose/testhttp
+   34  kubectl set image deployment apache-deployment front-end=anjurose/testhttp
+   35  kubectl get pods
+   37  kubectl describe deployment apache-deployment
+   38  kubectl describe service httpd
+   39  sudo docker run -d -p 8087:80 anjurose/testhttp
+   40  kubectl get pods
+   41  kubectl describe pods apache-deployment-6d5b69f785-4st2p
+   42  kubectl set image deployment apache-deployment httpd=anjurose/testhttp
+   43  kubectl get svc
+   44  kubectl delete service httpd
+   45  kubectl delete deployment apache-deployment
+   46  kubectl get pods
 
 
 
